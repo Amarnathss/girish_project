@@ -1,0 +1,119 @@
+import React, { useState } from 'react';
+import { checkFeasibility } from '../api/plannerApi';
+import NetworkGraph from '../components/NetworkGraph';
+import MetricsPanel from '../components/MetricsPanel';
+
+const SAMPLE_PASS = {
+  nodes: [
+    { id: 'A', label: 'Site A' },
+    { id: 'B', label: 'Site B' },
+    { id: 'C', label: 'Site C' },
+  ],
+  spans: [
+    { from: 'A', to: 'B', length_km: 60, connectors: 4, splices: 8, amp_gain_db: 20, amp_penalty_db: 1 },
+    { from: 'B', to: 'C', length_km: 50, connectors: 2, splices: 6, amp_gain_db: 18, amp_penalty_db: 1 },
+  ],
+  service: {
+    tx_power_dbm: 2.0,
+    receiver_sensitivity_dbm: -28.0,
+    osnr_threshold_db: 12.0,
+    noise_penalty_db: 1.5,
+  },
+  assumptions: {
+    atten_db_per_km: 0.25,
+    conn_loss_db: 0.5,
+    splice_loss_db: 0.1,
+  },
+};
+
+const SAMPLE_FAIL = {
+  nodes: [
+    { id: 'X', label: 'Site X' },
+    { id: 'Y', label: 'Site Y' },
+    { id: 'Z', label: 'Site Z' },
+  ],
+  spans: [
+    { from: 'X', to: 'Y', length_km: 120, connectors: 6, splices: 15, amp_gain_db: 10, amp_penalty_db: 2 },
+    { from: 'Y', to: 'Z', length_km: 100, connectors: 6, splices: 12, amp_gain_db: 8, amp_penalty_db: 3 },
+  ],
+  service: {
+    tx_power_dbm: 0.0,
+    receiver_sensitivity_dbm: -20.0,
+    osnr_threshold_db: 15.0,
+    noise_penalty_db: 3.0,
+  },
+  assumptions: {
+    atten_db_per_km: 0.3,
+    conn_loss_db: 0.75,
+    splice_loss_db: 0.15,
+  },
+};
+
+const SCENARIOS = {
+  PASS: SAMPLE_PASS,
+  FAIL: SAMPLE_FAIL,
+};
+
+export default function Planner() {
+  const [scenario, setScenario] = useState('PASS');
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const payload = SCENARIOS[scenario];
+
+  const handleRecalculate = async () => {
+    setLoading(true);
+    try {
+      const data = await checkFeasibility(payload);
+      setResult(data);
+    } catch (err) {
+      console.error(err);
+      setResult(null);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: 24, fontFamily: 'sans-serif' }}>
+      <h1>DWDM Link Planner</h1>
+
+      <div style={{ marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
+        <label htmlFor="scenario" style={{ fontWeight: 'bold' }}>Scenario:</label>
+        <select
+          id="scenario"
+          value={scenario}
+          onChange={(e) => { setScenario(e.target.value); setResult(null); }}
+          style={{ padding: '6px 12px', fontSize: 14 }}
+        >
+          <option value="PASS">PASS</option>
+          <option value="FAIL">FAIL</option>
+        </select>
+
+        <button
+          onClick={handleRecalculate}
+          disabled={loading}
+          style={{
+            padding: '8px 20px',
+            fontSize: 14,
+            fontWeight: 'bold',
+            backgroundColor: '#3b82f6',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 4,
+            cursor: 'pointer',
+          }}
+        >
+          {loading ? 'Calculating...' : 'Recalculate'}
+        </button>
+      </div>
+
+      <NetworkGraph
+        nodes={payload.nodes}
+        spans={payload.spans}
+        feasible={result ? result.feasible : true}
+      />
+
+      <MetricsPanel result={result} />
+    </div>
+  );
+}
