@@ -74,8 +74,7 @@ Supports single-span (2 nodes) and multi-span (3+ nodes) topologies.
       "length_km": 80,
       "connectors": 2,
       "splices": 10,
-      "amp_gain_db": 0,
-      "amp_penalty_db": 1.0
+      "amplifier_gain_db": 0
     },
     {
       "from": "B",
@@ -83,20 +82,20 @@ Supports single-span (2 nodes) and multi-span (3+ nodes) topologies.
       "length_km": 90,
       "connectors": 2,
       "splices": 12,
-      "amp_gain_db": 0,
-      "amp_penalty_db": 1.0
+      "amplifier_gain_db": 0
     }
   ],
   "service": {
     "tx_power_dbm": 0,
     "receiver_sensitivity_dbm": -24,
-    "osnr_threshold_db": 18,
-    "noise_penalty_db": 3.0
+    "osnr_threshold_db": 18
   },
   "assumptions": {
-    "atten_db_per_km": 0.22,
+    "fiber_atten_db_per_km": 0.22,
     "conn_loss_db": 0.5,
-    "splice_loss_db": 0.1
+    "splice_loss_db": 0.1,
+    "noise_penalty_db": 3.0,
+    "amp_penalty_db": 1.0
   }
 }
 ```
@@ -105,9 +104,9 @@ Supports single-span (2 nodes) and multi-span (3+ nodes) topologies.
 
 ```json
 {
-  "total_loss_db": 39.8,
-  "rx_power_dbm": -39.8,
-  "osnr_margin_db": -60.8,
+  "total_loss_db": 41.6,
+  "rx_power_dbm": -41.6,
+  "osnr_margin_db": -62.6,
   "feasible": false,
   "per_span": [
     {
@@ -122,13 +121,15 @@ Supports single-span (2 nodes) and multi-span (3+ nodes) topologies.
       "from": "B",
       "to": "C",
       "length_km": 90,
-      "loss_db": 22.2
+      "loss_db": 22.0
     }
   ],
   "assumptions_used": {
-    "atten_db_per_km": 0.22,
+    "fiber_atten_db_per_km": 0.22,
     "conn_loss_db": 0.5,
-    "splice_loss_db": 0.1
+    "splice_loss_db": 0.1,
+    "noise_penalty_db": 3.0,
+    "amp_penalty_db": 1.0
   }
 }
 ```

@@ -32,29 +32,38 @@ Evaluate DWDM link feasibility based on topology, service parameters, and assump
 {
   "nodes": [
     { "id": "A", "label": "Site A" },
-    { "id": "B", "label": "Site B" }
+    { "id": "B", "label": "Site B" },
+    { "id": "C", "label": "Site C" }
   ],
   "spans": [
     {
       "from": "A",
       "to": "B",
       "length_km": 80,
-      "connectors": 4,
+      "connectors": 2,
       "splices": 10,
-      "amp_gain_db": 20.0,
-      "amp_penalty_db": 1.0
+      "amplifier_gain_db": 0
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "length_km": 90,
+      "connectors": 2,
+      "splices": 12,
+      "amplifier_gain_db": 0
     }
   ],
   "service": {
-    "tx_power_dbm": 2.0,
-    "receiver_sensitivity_dbm": -28.0,
-    "osnr_threshold_db": 12.0,
-    "noise_penalty_db": 1.5
+    "tx_power_dbm": 0,
+    "receiver_sensitivity_dbm": -24,
+    "osnr_threshold_db": 18
   },
   "assumptions": {
-    "atten_db_per_km": 0.25,
+    "fiber_atten_db_per_km": 0.22,
     "conn_loss_db": 0.5,
-    "splice_loss_db": 0.1
+    "splice_loss_db": 0.1,
+    "noise_penalty_db": 3.0,
+    "amp_penalty_db": 1.0
   }
 }
 ```
@@ -77,8 +86,7 @@ Evaluate DWDM link feasibility based on topology, service parameters, and assump
 | length_km | float | Span length in kilometers |
 | connectors | int | Number of connectors |
 | splices | int | Number of splices |
-| amp_gain_db | float | Amplifier gain in dB |
-| amp_penalty_db | float | Amplifier penalty in dB |
+| amplifier_gain_db | float | Amplifier gain in dB |
 
 **Service Fields:**
 
@@ -87,22 +95,23 @@ Evaluate DWDM link feasibility based on topology, service parameters, and assump
 | tx_power_dbm | float | Transmit power in dBm |
 | receiver_sensitivity_dbm | float | Minimum receiver power in dBm |
 | osnr_threshold_db | float | Required OSNR threshold in dB |
-| noise_penalty_db | float | System noise penalty in dB |
 
 **Assumptions Fields:**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| atten_db_per_km | float | Fiber attenuation per km in dB |
+| fiber_atten_db_per_km | float | Fiber attenuation per km in dB |
 | conn_loss_db | float | Loss per connector in dB |
 | splice_loss_db | float | Loss per splice in dB |
+| noise_penalty_db | float | System noise penalty in dB |
+| amp_penalty_db | float | Amplifier penalty in dB |
 
 **Response:**
 
 ```json
 {
-  "total_loss_db": 4.0,
-  "rx_power_dbm": -2.0,
+  "total_loss_db": 22.0,
+  "rx_power_dbm": -20.0,
   "osnr_margin_db": 3.5,
   "feasible": true,
   "per_span": [
@@ -111,13 +120,15 @@ Evaluate DWDM link feasibility based on topology, service parameters, and assump
       "from": "A",
       "to": "B",
       "length_km": 80,
-      "loss_db": 4.0
+      "loss_db": 22.0
     }
   ],
   "assumptions_used": {
-    "atten_db_per_km": 0.25,
+    "fiber_atten_db_per_km": 0.25,
     "conn_loss_db": 0.5,
-    "splice_loss_db": 0.1
+    "splice_loss_db": 0.1,
+    "noise_penalty_db": 2.0,
+    "amp_penalty_db": 1.5
   }
 }
 ```
