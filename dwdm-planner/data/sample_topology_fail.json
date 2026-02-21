@@ -1,38 +1,9 @@
 {
-  "nodes": [
-    { "id": "X", "label": "Site X (Tx)" },
-    { "id": "Y", "label": "Site Y (Amp)" },
-    { "id": "Z", "label": "Site Z (Rx)" }
-  ],
+  "nodes": ["A", "B", "C"],
   "spans": [
-    {
-      "from": "X",
-      "to": "Y",
-      "length_km": 120,
-      "connectors": 6,
-      "splices": 15,
-      "amp_gain_db": 10.0,
-      "amp_penalty_db": 2.0
-    },
-    {
-      "from": "Y",
-      "to": "Z",
-      "length_km": 100,
-      "connectors": 6,
-      "splices": 12,
-      "amp_gain_db": 8.0,
-      "amp_penalty_db": 3.0
-    }
+    { "from": "A", "to": "B", "length_km": 80, "connectors": 2, "splices": 10, "amplifier_gain_db": 0 },
+    { "from": "B", "to": "C", "length_km": 90, "connectors": 2, "splices": 12, "amplifier_gain_db": 0 }
   ],
-  "service": {
-    "tx_power_dbm": 0.0,
-    "receiver_sensitivity_dbm": -20.0,
-    "osnr_threshold_db": 15.0,
-    "noise_penalty_db": 3.0
-  },
-  "assumptions": {
-    "atten_db_per_km": 0.3,
-    "conn_loss_db": 0.75,
-    "splice_loss_db": 0.15
-  }
+  "service": { "tx_power_dbm": 0, "receiver_sensitivity_dbm": -24, "osnr_threshold_db": 18 },
+  "assumptions": { "fiber_atten_db_per_km": 0.22, "conn_loss_db": 0.5, "splice_loss_db": 0.1, "noise_penalty_db": 3.0, "amp_penalty_db": 1.0 }
 }

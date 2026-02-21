@@ -1,48 +1,9 @@
 {
-  "nodes": [
-    { "id": "M1", "label": "Metro Hub 1" },
-    { "id": "M2", "label": "Metro Hub 2" },
-    { "id": "M3", "label": "Metro Hub 3" },
-    { "id": "M4", "label": "Metro Hub 4" }
-  ],
+  "nodes": ["A", "B", "C"],
   "spans": [
-    {
-      "from": "M1",
-      "to": "M2",
-      "length_km": 40,
-      "connectors": 4,
-      "splices": 6,
-      "amp_gain_db": 12.0,
-      "amp_penalty_db": 1.0
-    },
-    {
-      "from": "M2",
-      "to": "M3",
-      "length_km": 70,
-      "connectors": 4,
-      "splices": 10,
-      "amp_gain_db": 15.0,
-      "amp_penalty_db": 1.5
-    },
-    {
-      "from": "M3",
-      "to": "M4",
-      "length_km": 55,
-      "connectors": 3,
-      "splices": 8,
-      "amp_gain_db": 14.0,
-      "amp_penalty_db": 1.0
-    }
+    { "from": "A", "to": "B", "length_km": 40, "connectors": 2, "splices": 8, "amplifier_gain_db": 0 },
+    { "from": "B", "to": "C", "length_km": 60, "connectors": 2, "splices": 12, "amplifier_gain_db": 20 }
   ],
-  "service": {
-    "tx_power_dbm": 1.0,
-    "receiver_sensitivity_dbm": -24.0,
-    "osnr_threshold_db": 13.0,
-    "noise_penalty_db": 2.0
-  },
-  "assumptions": {
-    "atten_db_per_km": 0.25,
-    "conn_loss_db": 0.5,
-    "splice_loss_db": 0.1
-  }
+  "service": { "tx_power_dbm": 0, "receiver_sensitivity_dbm": -24, "osnr_threshold_db": 18 },
+  "assumptions": { "fiber_atten_db_per_km": 0.22, "conn_loss_db": 0.5, "splice_loss_db": 0.1, "noise_penalty_db": 3.0, "amp_penalty_db": 1.0 }
 }
