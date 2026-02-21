@@ -26,31 +26,55 @@ const SAMPLE_PASS = {
   },
 };
 
-const SAMPLE_FAIL = {
+const SAMPLE_MEDIUM = {
   nodes: [
-    { id: 'X', label: 'Site X' },
-    { id: 'Y', label: 'Site Y' },
-    { id: 'Z', label: 'Site Z' },
+    { id: 'A', label: 'Site A' },
+    { id: 'B', label: 'Site B' },
+    { id: 'C', label: 'Site C' },
   ],
   spans: [
-    { from: 'X', to: 'Y', length_km: 120, connectors: 6, splices: 15, amp_gain_db: 10, amp_penalty_db: 2 },
-    { from: 'Y', to: 'Z', length_km: 100, connectors: 6, splices: 12, amp_gain_db: 8, amp_penalty_db: 3 },
+    { from: 'A', to: 'B', length_km: 40, connectors: 2, splices: 8, amp_gain_db: 0, amp_penalty_db: 1 },
+    { from: 'B', to: 'C', length_km: 60, connectors: 2, splices: 12, amp_gain_db: 20, amp_penalty_db: 1 },
   ],
   service: {
     tx_power_dbm: 0.0,
-    receiver_sensitivity_dbm: -20.0,
-    osnr_threshold_db: 15.0,
+    receiver_sensitivity_dbm: -24.0,
+    osnr_threshold_db: 18.0,
     noise_penalty_db: 3.0,
   },
   assumptions: {
-    atten_db_per_km: 0.3,
-    conn_loss_db: 0.75,
-    splice_loss_db: 0.15,
+    atten_db_per_km: 0.22,
+    conn_loss_db: 0.5,
+    splice_loss_db: 0.1,
+  },
+};
+
+const SAMPLE_FAIL = {
+  nodes: [
+    { id: 'A', label: 'Site A' },
+    { id: 'B', label: 'Site B' },
+    { id: 'C', label: 'Site C' },
+  ],
+  spans: [
+    { from: 'A', to: 'B', length_km: 80, connectors: 2, splices: 10, amp_gain_db: 0, amp_penalty_db: 1 },
+    { from: 'B', to: 'C', length_km: 90, connectors: 2, splices: 12, amp_gain_db: 0, amp_penalty_db: 1 },
+  ],
+  service: {
+    tx_power_dbm: 0.0,
+    receiver_sensitivity_dbm: -24.0,
+    osnr_threshold_db: 18.0,
+    noise_penalty_db: 3.0,
+  },
+  assumptions: {
+    atten_db_per_km: 0.22,
+    conn_loss_db: 0.5,
+    splice_loss_db: 0.1,
   },
 };
 
 const SCENARIOS = {
   PASS: SAMPLE_PASS,
+  MEDIUM: SAMPLE_MEDIUM,
   FAIL: SAMPLE_FAIL,
 };
 
@@ -86,6 +110,7 @@ export default function Planner() {
           style={{ padding: '6px 12px', fontSize: 14 }}
         >
           <option value="PASS">PASS</option>
+          <option value="MEDIUM">MEDIUM</option>
           <option value="FAIL">FAIL</option>
         </select>
 

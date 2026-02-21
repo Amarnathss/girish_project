@@ -3,14 +3,20 @@ import FeasibilityBadge from './FeasibilityBadge';
 
 const ASSUMPTION_LABELS = {
   atten_db_per_km: 'Fiber Attenuation',
+  fiber_atten_db_per_km: 'Fiber Attenuation',
   conn_loss_db: 'Connector Loss',
   splice_loss_db: 'Splice Loss',
+  noise_penalty_db: 'Noise Penalty',
+  amp_penalty_db: 'Amplifier Penalty',
 };
 
 const ASSUMPTION_UNITS = {
   atten_db_per_km: 'dB/km',
+  fiber_atten_db_per_km: 'dB/km',
   conn_loss_db: 'dB',
   splice_loss_db: 'dB',
+  noise_penalty_db: 'dB',
+  amp_penalty_db: 'dB',
 };
 
 export default function MetricsPanel({ result }) {
