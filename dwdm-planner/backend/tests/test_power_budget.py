@@ -8,12 +8,12 @@ from services.power_budget import span_loss_db, total_loss_db, rx_power_dbm
 def test_span_loss_db_basic():
     result = span_loss_db(
         length_km=80,
-        atten_db_per_km=0.25,
+        fiber_atten_db_per_km=0.25,
         connectors=4,
         conn_loss_db=0.5,
         splices=10,
         splice_loss_db=0.1,
-        amp_gain_db=20.0,
+        amplifier_gain_db=20.0,
         amp_penalty_db=1.0,
     )
     # fiber_loss = 80 * 0.25 = 20
@@ -27,12 +27,12 @@ def test_span_loss_db_basic():
 def test_span_loss_db_no_amp():
     result = span_loss_db(
         length_km=50,
-        atten_db_per_km=0.3,
+        fiber_atten_db_per_km=0.3,
         connectors=2,
         conn_loss_db=0.5,
         splices=5,
         splice_loss_db=0.1,
-        amp_gain_db=0.0,
+        amplifier_gain_db=0.0,
         amp_penalty_db=0.0,
     )
     # fiber_loss = 50 * 0.3 = 15
@@ -45,14 +45,14 @@ def test_span_loss_db_no_amp():
 
 def test_total_loss_db():
     spans = [
-        {"length_km": 80, "connectors": 4, "splices": 10, "amp_gain_db": 20.0, "amp_penalty_db": 1.0},
-        {"length_km": 60, "connectors": 2, "splices": 8, "amp_gain_db": 15.0, "amp_penalty_db": 0.5},
+        {"length_km": 80, "connectors": 4, "splices": 10, "amplifier_gain_db": 20.0},
+        {"length_km": 60, "connectors": 2, "splices": 8, "amplifier_gain_db": 15.0},
     ]
-    result = total_loss_db(spans, atten_db_per_km=0.25, conn_loss_db=0.5, splice_loss_db=0.1)
+    result = total_loss_db(spans, fiber_atten_db_per_km=0.25, conn_loss_db=0.5, splice_loss_db=0.1, amp_penalty_db=1.0)
     # span1: 20 + 2 + 1 - 19 = 4.0
-    # span2: 15 + 1 + 0.8 - 14.5 = 2.3
-    # total = 6.3
-    assert result == 6.3
+    # span2: 15 + 1 + 0.8 - 14 = 2.8
+    # total = 6.8
+    assert result == 6.8
 
 
 def test_rx_power_dbm():

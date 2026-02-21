@@ -65,19 +65,19 @@ function buildPayload(form) {
       length_km: Number(s.length_km),
       connectors: Number(s.connectors),
       splices: Number(s.splices),
-      amp_gain_db: Number(s.amplifier_gain_db),
-      amp_penalty_db: 1.0,
+      amplifier_gain_db: Number(s.amplifier_gain_db),
     })),
     service: {
       tx_power_dbm: Number(form.service.tx_power_dbm),
       receiver_sensitivity_dbm: Number(form.service.receiver_sensitivity_dbm),
       osnr_threshold_db: Number(form.service.osnr_threshold_db),
-      noise_penalty_db: 3.0,
     },
     assumptions: {
-      atten_db_per_km: 0.22,
+      fiber_atten_db_per_km: 0.22,
       conn_loss_db: 0.5,
       splice_loss_db: 0.1,
+      noise_penalty_db: 3.0,
+      amp_penalty_db: 1.0,
     },
   };
 }

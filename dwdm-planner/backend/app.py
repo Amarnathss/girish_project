@@ -28,20 +28,21 @@ def check_feasibility(req: FeasibilityRequest):
 
     total_loss = total_loss_db(
         spans=req.spans,
-        atten_db_per_km=assumptions.atten_db_per_km,
+        fiber_atten_db_per_km=assumptions.fiber_atten_db_per_km,
         conn_loss_db=assumptions.conn_loss_db,
         splice_loss_db=assumptions.splice_loss_db,
+        amp_penalty_db=assumptions.amp_penalty_db,
     )
 
     rx_power = rx_power_dbm(service.tx_power_dbm, total_loss)
 
-    amp_total_gain = get_total_amp_gain(req.spans)
+    amp_total_gain = get_total_amp_gain(req.spans, assumptions.amp_penalty_db)
 
     osnr_margin = osnr_margin_db(
         tx_power_dbm=service.tx_power_dbm,
         total_loss_db=total_loss,
         amp_total_gain_db=amp_total_gain,
-        noise_penalty_db=service.noise_penalty_db,
+        noise_penalty_db=assumptions.noise_penalty_db,
         osnr_threshold_db=service.osnr_threshold_db,
     )
 
@@ -49,9 +50,10 @@ def check_feasibility(req: FeasibilityRequest):
 
     per_span = build_per_span_report(
         spans=req.spans,
-        atten_db_per_km=assumptions.atten_db_per_km,
+        fiber_atten_db_per_km=assumptions.fiber_atten_db_per_km,
         conn_loss_db=assumptions.conn_loss_db,
         splice_loss_db=assumptions.splice_loss_db,
+        amp_penalty_db=assumptions.amp_penalty_db,
     )
 
     return FeasibilityResponse(
@@ -61,8 +63,10 @@ def check_feasibility(req: FeasibilityRequest):
         feasible=feasible,
         per_span=per_span,
         assumptions_used={
-            "atten_db_per_km": assumptions.atten_db_per_km,
+            "fiber_atten_db_per_km": assumptions.fiber_atten_db_per_km,
             "conn_loss_db": assumptions.conn_loss_db,
             "splice_loss_db": assumptions.splice_loss_db,
+            "noise_penalty_db": assumptions.noise_penalty_db,
+            "amp_penalty_db": assumptions.amp_penalty_db,
         },
     )

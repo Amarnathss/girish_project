@@ -10,19 +10,20 @@ const SAMPLE_PASS = {
     { id: 'C', label: 'Site C' },
   ],
   spans: [
-    { from: 'A', to: 'B', length_km: 60, connectors: 4, splices: 8, amp_gain_db: 20, amp_penalty_db: 1 },
-    { from: 'B', to: 'C', length_km: 50, connectors: 2, splices: 6, amp_gain_db: 18, amp_penalty_db: 1 },
+    { from: 'A', to: 'B', length_km: 60, connectors: 4, splices: 8, amplifier_gain_db: 20 },
+    { from: 'B', to: 'C', length_km: 50, connectors: 2, splices: 6, amplifier_gain_db: 18 },
   ],
   service: {
     tx_power_dbm: 2.0,
     receiver_sensitivity_dbm: -28.0,
     osnr_threshold_db: 12.0,
-    noise_penalty_db: 1.5,
   },
   assumptions: {
-    atten_db_per_km: 0.25,
+    fiber_atten_db_per_km: 0.25,
     conn_loss_db: 0.5,
     splice_loss_db: 0.1,
+    noise_penalty_db: 1.5,
+    amp_penalty_db: 1.0,
   },
 };
 
@@ -33,19 +34,20 @@ const SAMPLE_MEDIUM = {
     { id: 'C', label: 'Site C' },
   ],
   spans: [
-    { from: 'A', to: 'B', length_km: 40, connectors: 2, splices: 8, amp_gain_db: 0, amp_penalty_db: 1 },
-    { from: 'B', to: 'C', length_km: 60, connectors: 2, splices: 12, amp_gain_db: 20, amp_penalty_db: 1 },
+    { from: 'A', to: 'B', length_km: 40, connectors: 2, splices: 8, amplifier_gain_db: 0 },
+    { from: 'B', to: 'C', length_km: 60, connectors: 2, splices: 12, amplifier_gain_db: 20 },
   ],
   service: {
     tx_power_dbm: 0.0,
     receiver_sensitivity_dbm: -24.0,
     osnr_threshold_db: 18.0,
-    noise_penalty_db: 3.0,
   },
   assumptions: {
-    atten_db_per_km: 0.22,
+    fiber_atten_db_per_km: 0.22,
     conn_loss_db: 0.5,
     splice_loss_db: 0.1,
+    noise_penalty_db: 3.0,
+    amp_penalty_db: 1.0,
   },
 };
 
@@ -56,19 +58,20 @@ const SAMPLE_FAIL = {
     { id: 'C', label: 'Site C' },
   ],
   spans: [
-    { from: 'A', to: 'B', length_km: 80, connectors: 2, splices: 10, amp_gain_db: 0, amp_penalty_db: 1 },
-    { from: 'B', to: 'C', length_km: 90, connectors: 2, splices: 12, amp_gain_db: 0, amp_penalty_db: 1 },
+    { from: 'A', to: 'B', length_km: 80, connectors: 2, splices: 10, amplifier_gain_db: 0 },
+    { from: 'B', to: 'C', length_km: 90, connectors: 2, splices: 12, amplifier_gain_db: 0 },
   ],
   service: {
     tx_power_dbm: 0.0,
     receiver_sensitivity_dbm: -24.0,
     osnr_threshold_db: 18.0,
-    noise_penalty_db: 3.0,
   },
   assumptions: {
-    atten_db_per_km: 0.22,
+    fiber_atten_db_per_km: 0.22,
     conn_loss_db: 0.5,
     splice_loss_db: 0.1,
+    noise_penalty_db: 3.0,
+    amp_penalty_db: 1.0,
   },
 };
 
